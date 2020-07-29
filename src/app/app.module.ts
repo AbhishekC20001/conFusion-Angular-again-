@@ -5,6 +5,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -50,6 +54,8 @@ import { LoginComponent } from './login/login.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     FlexLayoutModule,
+    MatSelectModule,
+    MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
@@ -59,7 +65,8 @@ import { LoginComponent } from './login/login.component';
     MatButtonModule,
     AppRoutingModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [
     DishService,
