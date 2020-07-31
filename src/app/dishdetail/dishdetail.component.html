@@ -31,7 +31,8 @@
 
   </div>
 
-  <div fxFlex="40" *ngIf="dish">
+  <div *ngIf="dish" fxLayout="column" fxFlex="40" >
+
     <mat-list fxFlex >
       <h1 matline>Comments</h1>
 
@@ -42,13 +43,34 @@
         <p matLine> --{{d.author}} {{d.date | date}} </p>
 
     </mat-list-item>
+    </mat-list>
+        <div fxFlex>
+
+        <form novalidate [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+          <p>
+            <mat-form-field class="half-width">
+              <input matInput formControlName="author" placeholder="Name" type="text" required>
+              <mat-error *ngIf="formErrors.author">{{formErrors.author}}</mat-error>
+            </mat-form-field>
+          </p>
+
+            <mat-slider matInput formControlName="rating" placeholder="Rating" tickInterval="1" thumbLabel min="1" max="5" step="1" value="5"></mat-slider>
 
 
-  </mat-list>
+          <p>
+            <mat-form-field class="half-width">
+              <textarea matInput formControlName="comment" placeholder="Your Feedback" rows=10 required></textarea>
+              <mat-error *ngIf="formErrors.comment">{{formErrors.comment}}</mat-error>
+            </mat-form-field>
+          </p>
+          <button type="submit" [disabled]="commentForm.status === 'INVALID'" mat-button class="background-primary text-floral-white">Submit</button>
+        </form>
+        </div>
 
   </div>
   <div [hidden]="dish">
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
+
 
 </div>
