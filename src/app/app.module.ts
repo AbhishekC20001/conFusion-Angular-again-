@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatSliderModule} from '@angular/material/slider';
 
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -40,6 +42,9 @@ import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
 
+import { baseURL } from './shared/baseurl';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +62,7 @@ import { LoginComponent } from './login/login.component';
     BrowserAnimationsModule,
     MatToolbarModule,
     FlexLayoutModule,
+    HttpClientModule,
     MatProgressSpinnerModule,
     MatSelectModule,
     MatSlideToggleModule,
@@ -76,7 +82,8 @@ import { LoginComponent } from './login/login.component';
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    {provide: 'BaseURL', useValue: baseURL}
   ],
   entryComponents: [
     LoginComponent
