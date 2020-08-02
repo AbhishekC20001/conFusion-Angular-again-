@@ -59,7 +59,7 @@
      fxLayoutGap="10px" *ngIf="leaders">
     <h2>Corporate Leadership</h2>
     <mat-list>
-    <mat-list-item *ngFor="let l of leaders">
+    <mat-list-item *ngFor="let l of leaders" [@expand]>
       <img matListAvatar src={{l.image}} alt={{l.name}}>
       <h1 matLine>{{l.name}}  {{l.abbr}} </h1>
       <h1 matLine>{{l.designation}} </h1>
