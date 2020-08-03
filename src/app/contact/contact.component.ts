@@ -1,10 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { Component, OnInit, ViewChild, Input, Inject } from '@angular/core';
+import { FeedbackService } from '../services/feedback.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { Params, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { switchMap } from 'rxjs/operators';
 
 import { Feedback, ContactType } from '../shared/feedback';
 
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, visibility, expand } from '../animations/app.animation';
 
 @Component({
   selector: 'app-contact',
@@ -15,14 +19,23 @@ import { flyInOut } from '../animations/app.animation';
   'style': 'display: block;'
   },
   animations: [
-    flyInOut()
+    flyInOut(),
+    visibility(),
+    expand()
   ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackcopy: Feedback;
   contactType = ContactType;
+
+  errMess: string;
+
+  isLoading: boolean;
+  isShowingResponse: boolean;
+
 
   @ViewChild('fform') feedbackFormDirective;
 
@@ -54,8 +67,15 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private feedbackservice: FeedbackService,
+      private route: ActivatedRoute,
+      private location: Location,
+
+      @Inject('BaseURL') private BaseURL) {
     this.createForm();
+    this.isLoading = false;
+    this.isShowingResponse = false;
    }
 
   ngOnInit() {
@@ -103,8 +123,23 @@ export class ContactComponent implements OnInit {
 
 
   onSubmit() {
+    this.isLoading = true;
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
+    //this.feedbackcopy.feedback.push(this.feedback);
+    this.feedbackservice.submitFeedback(this.feedback)
+     .subscribe(feedback => {
+       this.feedback = feedback; this.feedbackcopy = feedback;
+     },
+     errmess => { this.feedback = null; this.feedbackcopy = null; this.errMess = <any>errmess; },
+     () => {
+       this.isShowingResponse = true;
+       setTimeout(() => {
+           this.isShowingResponse = false;
+           this.isLoading = false;
+         } , 5000
+       );
+     });
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
